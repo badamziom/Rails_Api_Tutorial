@@ -1,5 +1,6 @@
 MarketPlaceApi::Application.routes.draw do
 
+  devise_for :users
   require 'api_constraints'
 
   #Aou definition
