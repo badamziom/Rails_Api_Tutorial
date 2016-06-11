@@ -16,6 +16,9 @@
 !/log/.keep
 /tmp
 
+# Ignore IDE files
+.idea
+
 # Extra files to ignore
 doc/
 *.swp
