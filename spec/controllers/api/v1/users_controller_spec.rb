@@ -10,7 +10,7 @@ describe Api::V1::UsersController do
     end
 
     it 'should returns the information about a reporter on a hash' do
-      user_response = JSON.parse(response.body, symbolize_names: true)
+      user_response = json_response
       expect(user_response[:email]).to eql(user.email)
     end
 
@@ -27,7 +27,7 @@ describe Api::V1::UsersController do
       end
 
       it 'should renders the json representation for the user record just created' do
-        user_response = JSON.parse(response.body, symbolize_names: true)
+        user_response = json_response
         expect(user_response[:email]).to eql(user_attributes[:email])
       end
 
@@ -40,7 +40,7 @@ describe Api::V1::UsersController do
       before(:each) do
         post :create, { user: invalid_user_attributes }, format: :json
       end
-      let(:user_response) { JSON.parse(response.body, symbolize_names: true) }
+      let(:user_response) { json_response }
 
       it 'should renders an error json' do
         expect(user_response).to have_key(:errors)
@@ -62,7 +62,7 @@ describe Api::V1::UsersController do
       before(:each) do
         patch :update, { id: user.id, user: { email: 'newmail@example.com' } }, format: :json
       end
-      let(:user_response) { JSON.parse(response.body, symbolize_names: true) }
+      let(:user_response) { json_response }
 
       it 'should renders the json representation for the updated user' do
         expect(user_response[:email]).to eql('newmail@example.com')
@@ -77,7 +77,7 @@ describe Api::V1::UsersController do
       before(:each) do
         patch :update, { id: user.id, user: { email: 'badmail.com' } }, format: :json
       end
-      let(:user_response) { JSON.parse(response.body, symbolize_names: true) }
+      let(:user_response) { json_response }
 
       it 'should renders an errors json' do
         expect(user_response).to have_key(:errors)
