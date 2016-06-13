@@ -62,7 +62,12 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
 
-  config.include Request::JsonHelpers, :type => :controller
+  config.include Request::JsonHelpers, type: :controller
+  config.include Request::HeaderHelpers, type: :controller
+
+  config.before(:each, type: :controller) do
+    include_default_accept_headers
+  end
 
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|

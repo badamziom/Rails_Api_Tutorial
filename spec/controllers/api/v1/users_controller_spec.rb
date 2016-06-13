@@ -1,12 +1,11 @@
 require 'spec_helper'
 
 describe Api::V1::UsersController do
-  before(:each) { request.headers['Accept'] = 'application/vnd.marketplace.v1' }
 
   describe 'GET #show' do
     let(:user) { FactoryGirl.create(:user) }
     before(:each) do
-      get :show, id: user.id, format: :json
+      get :show, id: user.id
     end
 
     it 'should returns the information about a reporter on a hash' do
@@ -23,7 +22,7 @@ describe Api::V1::UsersController do
     context 'when is successfully created' do
       let(:user_attributes) { FactoryGirl.attributes_for(:user) }
       before(:each) do
-        post :create, { user: user_attributes }, format: :json
+        post :create, { user: user_attributes }
       end
 
       it 'should renders the json representation for the user record just created' do
@@ -38,7 +37,7 @@ describe Api::V1::UsersController do
     context 'when is not created' do
       let(:invalid_user_attributes) { { password: '12345678', password_confirmation: '12345678' } }
       before(:each) do
-        post :create, { user: invalid_user_attributes }, format: :json
+        post :create, { user: invalid_user_attributes }
       end
       let(:user_response) { json_response }
 
@@ -60,7 +59,7 @@ describe Api::V1::UsersController do
     context 'when is successfully updated' do
       let(:user) { FactoryGirl.create(:user) }
       before(:each) do
-        patch :update, { id: user.id, user: { email: 'newmail@example.com' } }, format: :json
+        patch :update, { id: user.id, user: { email: 'newmail@example.com' } }
       end
       let(:user_response) { json_response }
 
@@ -75,7 +74,7 @@ describe Api::V1::UsersController do
     context 'when is not created' do
       let(:user) { FactoryGirl.create(:user) }
       before(:each) do
-        patch :update, { id: user.id, user: { email: 'badmail.com' } }, format: :json
+        patch :update, { id: user.id, user: { email: 'badmail.com' } }
       end
       let(:user_response) { json_response }
 
@@ -95,7 +94,7 @@ describe Api::V1::UsersController do
   describe 'DELETE #destroy' do
     let(:user) { FactoryGirl.create(:user) }
     before(:each) do
-      delete :destroy, { id: user.id }, format: :json
+      delete :destroy, { id: user.id }
     end
 
     it { should respond_with 204 }
