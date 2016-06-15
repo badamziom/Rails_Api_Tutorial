@@ -13,6 +13,11 @@ describe Api::V1::ProductsController do
       expect(product_response[:title]).to eql(product.title)
     end
 
+    it 'should has the user as a embeded object' do
+      product_response = json_response[:product]
+      expect(product_response[:user][:email]).to eql(product.user.email)
+    end
+
     it { should respond_with 200 }
 
   end
@@ -25,8 +30,14 @@ describe Api::V1::ProductsController do
 
     it 'should returns 4 records from the database' do
       products_response = json_response[:products]
-      p products_response
       expect(products_response.size).to eq(4)
+    end
+
+    it 'should returns the user object into each product' do
+      product_response = json_response[:products]
+      product_response.each do |product_response|
+        expect(product_response[:user]).to be_present
+      end
     end
 
     it { should respond_with 200 }
