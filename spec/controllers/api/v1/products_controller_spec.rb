@@ -28,19 +28,43 @@ describe Api::V1::ProductsController do
       get :index
     end
 
-    it 'should returns 4 records from the database' do
-      products_response = json_response[:products]
-      expect(products_response.size).to eq(4)
+    context 'when is not receiving any product_ids parameter' do
+      before(:each) do
+        get :index
+      end
+
+      it 'should returns 4 records from the database' do
+        products_response = json_response[:products]
+        expect(products_response.size).to eq(4)
+      end
+
+      it 'should returns the user object into each product' do
+        product_response = json_response[:products]
+        product_response.each do |product_response|
+          expect(product_response[:user]).to be_present
+        end
+      end
+
+      it { should respond_with 200 }
     end
 
-    it 'should returns the user object into each product' do
-      product_response = json_response[:products]
-      product_response.each do |product_response|
-        expect(product_response[:user]).to be_present
+    context 'when is product_ids parameter is sent' do
+      let(:user) { FactoryGirl.create(:user) }
+      before(:each) do
+        3.times { FactoryGirl.create(:product, user: user) }
+        get :index, product_ids: user.product_ids
+      end
+
+      it 'should returns just the products that belong to the user' do
+        products_response = json_response[:products]
+        p products_response.as_json
+        products_response.each do |product_response|
+        expect(product_response[:user][:email]).to eq(user.email)
+      end
+
       end
     end
 
-    it { should respond_with 200 }
   end
 
   describe 'POST #creaate' do
