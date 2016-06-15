@@ -52,15 +52,14 @@ describe Api::V1::ProductsController do
       let(:user) { FactoryGirl.create(:user) }
       before(:each) do
         3.times { FactoryGirl.create(:product, user: user) }
-        get :index, product_ids: user.product_ids
+        get :index, products_ids: user.product_ids
       end
 
       it 'should returns just the products that belong to the user' do
         products_response = json_response[:products]
-        p products_response.as_json
         products_response.each do |product_response|
-        expect(product_response[:user][:email]).to eq(user.email)
-      end
+          expect(product_response[:user][:email]).to eq(user.email)
+        end
 
       end
     end

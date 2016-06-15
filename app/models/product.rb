@@ -20,4 +20,16 @@ class Product < ActiveRecord::Base
     order(:updated_at)
   }
 
+  def self.search(params = {})
+    products = params[:products_ids].present? ? Product.find(params[:products_ids]) : Product.all
+
+    products = products.filter_by_title(params[:keyword]) if params[:keyword]
+    products = products.above_or_equal_to_price(params[:min_price]) if params[:min_price]
+    products = products.below_or_equal_to_price(params[:max_price]) if params[:max_price]
+    products = products.recent(params[:recent]) if params[:recent].present?
+
+    products
+
+  end
+
 end
