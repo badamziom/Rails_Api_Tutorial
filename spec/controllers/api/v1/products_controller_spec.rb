@@ -8,8 +8,8 @@ describe Api::V1::ProductsController do
       get :show, id: product.id
     end
 
-    it 'should return the informations about a reporter on a hash' do
-      product_response = json_response
+    it 'should return the information about a reporter on a hash' do
+      product_response = json_response[:product]
       expect(product_response[:title]).to eql(product.title)
     end
 
@@ -24,7 +24,8 @@ describe Api::V1::ProductsController do
     end
 
     it 'should returns 4 records from the database' do
-      products_response = json_response
+      products_response = json_response[:products]
+      p products_response
       expect(products_response.size).to eq(4)
     end
 
@@ -43,7 +44,7 @@ describe Api::V1::ProductsController do
       end
 
       it 'should renders the json representation for the product record just created' do
-        product_response = json_response
+        product_response = json_response[:product]
         expect(product_response[:title]).to eql(product_attributes[:title])
       end
 
@@ -88,7 +89,7 @@ describe Api::V1::ProductsController do
       end
 
       it 'should renders the json representation for the updated user' do
-        product_response = json_response
+        product_response = json_response[:product]
         expect(product_response[:title]).to eql('An expensive TV')
       end
 
