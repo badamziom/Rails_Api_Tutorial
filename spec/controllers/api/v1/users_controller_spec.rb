@@ -9,7 +9,7 @@ describe Api::V1::UsersController do
     end
 
     it 'should returns the information about a reporter on a hash' do
-      user_response = json_response
+      user_response = json_response[:user]
       expect(user_response[:email]).to eql(user.email)
     end
 
@@ -26,7 +26,7 @@ describe Api::V1::UsersController do
       end
 
       it 'should renders the json representation for the user record just created' do
-        user_response = json_response
+        user_response = json_response[:user]
         expect(user_response[:email]).to eql(user_attributes[:email])
       end
 
@@ -66,7 +66,7 @@ describe Api::V1::UsersController do
       before(:each) do
         patch :update, { id: user.id, user: { email: 'newmail@example.com' } }
       end
-      let(:user_response) { json_response }
+      let(:user_response) { json_response[:user] }
 
       it 'should renders the json representation for the updated user' do
         expect(user_response[:email]).to eql('newmail@example.com')
