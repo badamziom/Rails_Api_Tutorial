@@ -31,6 +31,16 @@ describe Api::V1::OrdersController do
       expect(order_response[:id]).to eql(@order.id)
     end
 
+    it 'should includes the total for the order' do
+      order_response = json_response[:order]
+      expect(order_response[:total]).to eql(@order.total.to_s)
+    end
+
+    it 'should includes the products for the order' do
+      order_response = json_response[:order]
+      expect(order_response[:total]).to eql(@order.total.to_s)
+    end
+
     it { should respond_with 200 }
   end
 
