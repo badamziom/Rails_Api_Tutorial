@@ -40,7 +40,11 @@ gem 'furatto'
 gem 'font-awesome-rails'
 gem 'simple_form'
 
+# Pagination
 gem 'kaminari'
+
+# Background jobs
+gem 'delayed_job_active_record'
 
 group :development do
   # Use sqlite3 as the database for Active Record
